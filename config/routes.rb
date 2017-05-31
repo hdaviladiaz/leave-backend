@@ -1,4 +1,3 @@
 Rails.application.routes.draw do
-  resources :examples
-  resources :people
+  resources :examples, :people
 end

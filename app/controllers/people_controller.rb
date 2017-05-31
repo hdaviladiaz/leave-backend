@@ -1,9 +1,22 @@
 require 'rest-client'
 
 class PeopleController < ApplicationController
+  def path
+    'https://jigsaw.thoughtworks.net/api/people'
+  end
+
+  def token
+    Rails.application.secrets.token_jigsaw
+  end
 
   def index
-    @people = RestClient.get 'https://jigsaw.thoughtworks.net/api/people', {:Authorization => 'be68b68cc63d91d1ba1de01588916f0f', :params => {:home_office => 'Quito'}}
+    @people = RestClient.get path, {:Authorization => token, :params => {:home_office => 'Quito'}}
+    render json: @people
+  end
+
+  def show
+    @id = params[:id]
+    @people = RestClient.get path, {:Authorization => token, :params => {:ids => @id}}
     render json: @people
   end
 end

@@ -7,11 +7,9 @@ RSpec.describe ExamplesController, type: :routing do
       expect(:get => "/examples").to route_to("examples#index")
     end
 
-
     it "routes to #show" do
       expect(:get => "/examples/1").to route_to("examples#show", :id => "1")
     end
-
 
     it "routes to #create" do
       expect(:post => "/examples").to route_to("examples#create")
