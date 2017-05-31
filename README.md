@@ -15,12 +15,13 @@ You also need a ruby version manager, get either [RVM](https://rvm.io/) or [rben
 
 To install the latest version of rails do
 
-        gem install rails
+        gem install rails -v 5.1.1
 
 ### PostgreSQL
 
-Install Postgres and create a Postgres user for the Rails app.
+Install Postgres, start the service and then create a Postgres user for the Rails app.
 
+        createuser -d -a -s postgres
         createuser -U postgres -s leave-backend
 
 
@@ -30,10 +31,17 @@ Set the ruby version with RVM
 
       rvm use ruby-2.4.1
 
+If you don't have leave-backend gemset yet, create it with RVM
+
+      rvm ruby-2.4.1 do rvm gemset create leave-backend
+
 Finally, set the gemset with RVM
 
       rvm gemset use leave-backend
 
+If you needed to create leave-backend gemset, then you would need to install Rails
+
+      gem install rails -v 5.1.1
 
 Clone the repository
 
