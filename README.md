@@ -89,3 +89,11 @@ We are using the [rails-api](https://github.com/rails-api/rails-api) for the ser
 [Postgres](http://postgresapp.com/) for our database,
 [factory_girl](https://github.com/thoughtbot/factory_girl) instead of fixtures
 and [RSpec](http://rspec.info/) for testing.
+
+## Known Issues
+
+### Redundant curlt braces around a hash parameter
+
+rest-client gem has a problem resolving hash parameter without curly braces, therefore we're forced to use them. This will raise alerts while running rubocop.
+
+https://github.com/rest-client/rest-client/issues/397
