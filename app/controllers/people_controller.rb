@@ -10,17 +10,21 @@ class PeopleController < ApplicationController
   end
 
   def index
-    @people = RestClient.get path, {
-      Authorization: token, params: { home_office: 'Quito' }
-    }
-    render json: @people
+    begin
+      response = RestClient.get path, {
+        Authorization: token, params: { home_office: 'Quito' }
+      }
+      render json: response.body
+    rescue RestClient::Unauthorized
+      render json: {}, status: :unauthorized
+    end
   end
 
   def show
-    @id = params[:id]
-    @people = RestClient.get path, {
-      Authorization: token, params: { ids: @id }
+    id = params[:id]
+    response = RestClient.get path, {
+      Authorization: token, params: { ids: id }
     }
-    render json: @people
+    render json: response.body
   end
 end

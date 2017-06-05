@@ -7,5 +7,6 @@
 /tmp/*
 !/log/.keep
 !/tmp/.keep
+/**/*.swp
 
 .byebug_history
