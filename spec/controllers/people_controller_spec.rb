@@ -24,10 +24,10 @@ RSpec.describe PeopleController, type: :controller do
   end
 
   describe '#show' do
-    subject(:response) { get :show, params: { id: people_id }}
+    subject(:response) { get :show, params: { id: people_id } }
     context 'when resource exists' do
       let(:people_id) { Faker::Number.positive }
-      let(:params) { "ids=#{people_id}"}
+      let(:params) { "ids=#{people_id}" }
       let(:code) { 200 }
 
       it { is_expected.to have_http_status(200) }
