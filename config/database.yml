@@ -9,6 +9,12 @@ development:
   database: leave-backend_development
   pool: 5
 
+ci:
+  <<: *default
+  database: leave-backend_test
+  pool: 5
+  host: leave.thoughtworks.ec
+
 test:
   <<: *default
   database: leave-backend_test
