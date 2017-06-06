@@ -13,7 +13,7 @@ ci:
   <<: *default
   database: leave-backend_test
   pool: 5
-  host: db.leave.thoughtworks.ec
+  host: postgres
 
 test:
   <<: *default
