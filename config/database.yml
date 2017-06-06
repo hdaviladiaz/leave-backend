@@ -13,12 +13,6 @@ test:
   <<: *default
   database: leave-backend_test
   pool: 5
-  host: leave.thoughtworks.ec
-
-local:
-  <<: *default
-  database: leave-backend_test
-  pool: 5
 
 production:
   <<: *default
