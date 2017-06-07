@@ -1,26 +1,13 @@
-require 'rest-client'
-
 class PeopleController < ApplicationController
-  def path
-    'https://jigsaw.thoughtworks.net/api/people'
-  end
-
-  def token
-    Rails.application.secrets.token_jigsaw
+  def initialize()
+    @peopleService = PeopleService.new()
   end
 
   def index
-    response = RestClient.get path, {
-      Authorization: token, params: { home_office: 'Quito' }
-    }
-    render json: response.body
+    render json: @peopleService.get_all
   end
 
   def show
-    id = params[:id]
-    response = RestClient.get path, {
-      Authorization: token, params: { ids: id }
-    }
-    render json: response.body
+    render json: @peopleService.get_by_id(params[:id])
   end
 end
