@@ -19,7 +19,6 @@ RSpec.describe PeopleController, type: :controller do
     context 'when request is not authorized' do
       let(:code) { 401 }
       specify { expect(response).to have_http_status(401) }
-      specify { expect(response.body).to eq('{}') }
     end
   end
 
