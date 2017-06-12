@@ -14,7 +14,7 @@
   ],
   "proxies": {
     "/api/": {
-      "origin": "https://api.example.com"
+      "origin": "https://git.heroku.com/leave-ui-qa.git"
     }
   }
 
