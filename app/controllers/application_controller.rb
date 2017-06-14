@@ -14,6 +14,6 @@ class ApplicationController < ActionController::API
   end
 
   def redirect_to_auth
-    redirect_to("/auth/saml?redirectUrl=#{URI.encode(request.path)}", status: 304)
+    render json: "/auth/saml?redirectUrl=#{URI.encode(request.path)}", status: :see_other
   end
 end

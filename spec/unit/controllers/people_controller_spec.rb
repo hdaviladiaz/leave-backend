@@ -36,7 +36,7 @@ describe PeopleController, type: :controller do
       context 'whithout token header' do
         subject(:response) { get :index }
         let(:code) { 200 }
-        it { is_expected.to have_http_status(302) }
+        it { is_expected.to have_http_status(303) }
       end
 
       context 'with undefined token header' do
@@ -45,7 +45,7 @@ describe PeopleController, type: :controller do
           get :index
         end
         let(:code) { 200 }
-        it { is_expected.to have_http_status(302) }
+        it { is_expected.to have_http_status(303) }
       end
     end
   end
@@ -72,9 +72,20 @@ describe PeopleController, type: :controller do
     end
 
     context 'when user is anonymous' do
-      subject(:response) { get :show }
-      let(:code) { 200 }
-      it { is_expected.to have_http_status(302) }
+      context 'whithout token header' do
+        subject(:response) { get :show }
+        let(:code) { 200 }
+        it { is_expected.to have_http_status(303) }
+      end
+
+      context 'with undefined token header' do
+        subject(:response) do
+          request.headers[:Token] = 'undefined'
+          get :show
+        end
+        let(:code) { 200 }
+        it { is_expected.to have_http_status(303) }
+      end
     end
   end
 end
