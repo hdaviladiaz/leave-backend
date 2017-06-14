@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 heroku maintenance:on --app "$APP_BACKEND-$APP_ENV"
 git remote rm heroku
 heroku git:remote -a --ssh-git "$APP_BACKEND-$APP_ENV"
