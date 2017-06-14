@@ -8,6 +8,10 @@ end
 gem 'pg', '~> 0.18'
 gem 'rails', '~> 5.1.1'
 gem 'rest-client', '~> 2.0.2'
+gem 'omniauth'
+gem 'omniauth-saml'
+gem 'jwt'
+gem 'rack-cors'
 
 group :production do
   gem 'puma', '~> 3.7'

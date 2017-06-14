@@ -1,13 +1,13 @@
 class PeopleController < ApplicationController
   def initialize()
-    @peopleService = PeopleService.new()
+    @people_service = PeopleService.new()
   end
 
   def index
-    render json: @peopleService.get_all
+    render json: @people_service.get_all
   end
 
   def show
-    render json: @peopleService.get_by_id(params[:id])
+    render json: @people_service.get_by_username(@user.username)
   end
 end

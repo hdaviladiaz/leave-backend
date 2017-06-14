@@ -1,0 +1,4 @@
+auth:
+  issuer: "http://localhost:3000/"
+  fingerprint: "E3:8B:22:E6:A3:85:FA:5E:55:E2:50:47:61:78:EC:DE:DB:2E:B0:E3"
+  target_url: "https://thoughtworks.oktapreview.com/app/thoughtworkspreview_labsleaveecuadorlocal_1/exka3br8bfToxcKMm0h7/sso/saml"

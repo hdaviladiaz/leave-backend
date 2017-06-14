@@ -1,36 +1,80 @@
 require 'rails_helper'
 
-RSpec.describe PeopleController, type: :controller do
+describe PeopleController, type: :controller do
   let(:people) { Faker::Lorem.sentence }
   let(:jigsaw_token) { Faker::Crypto.sha1 }
-  let(:uri) { "https://jigsaw.thoughtworks.net/api/people?#{params}" }
-  before { stub_request(:get, uri).to_return(body: people, status: code) }
+  let(:uri) { "https://jigsaw.thoughtworks.net/api/people#{params}" }
+  let(:user) { User.new(Faker::Internet.email) }
+  let(:token) { Token.new.encode(user) }
+  before do
+    stub_request(:get, uri).to_return(body: people, status: code)
+    ENV['JWT_SECRET'] = Faker::Crypto.sha256
+  end
 
   describe '#index' do
-    subject(:response) { get :index }
-    let(:params) { 'home_office=Quito' }
+    let(:params) { '?home_office=Quito' }
 
-    context 'when request is authorized' do
-      let(:code) { 200 }
-      it { is_expected.to have_http_status(200) }
-      specify { expect(response.body).to eq(people) }
+    context 'when user is logged in' do
+      subject(:response) do
+        request.headers[:Token] = token
+        get :index
+      end
+
+      context 'when request is authorized' do
+        let(:code) { 200 }
+        it { is_expected.to have_http_status(200) }
+        specify { expect(response.body).to eq(people) }
+      end
+
+      context 'when request is not authorized' do
+        let(:code) { 401 }
+        specify { expect(response).to have_http_status(401) }
+      end
     end
 
-    context 'when request is not authorized' do
-      let(:code) { 401 }
-      specify { expect(response).to have_http_status(401) }
+    context 'when user is anonymous' do
+      context 'whithout token header' do
+        subject(:response) { get :index }
+        let(:code) { 200 }
+        it { is_expected.to have_http_status(302) }
+      end
+
+      context 'with undefined token header' do
+        subject(:response) do
+          request.headers[:Token] = 'undefined'
+          get :index
+        end
+        let(:code) { 200 }
+        it { is_expected.to have_http_status(302) }
+      end
     end
   end
 
   describe '#show' do
-    subject(:response) { get :show, params: { id: people_id } }
-    context 'when resource exists' do
-      let(:people_id) { Faker::Number.positive }
-      let(:params) { "ids=#{people_id}" }
-      let(:code) { 200 }
+    let(:params) { "/#{user.username}" }
 
-      it { is_expected.to have_http_status(200) }
-      specify { expect(response.content_type).to eq('application/json') }
+    context 'when user is logged in' do
+      subject(:response) do
+        request.headers[:Token] = token
+        get :show
+      end
+
+      context 'when request is authorized' do
+        let(:code) { 200 }
+        it { is_expected.to have_http_status(200) }
+        specify { expect(response.body).to eq(people) }
+      end
+
+      context 'when request is not authorized' do
+        let(:code) { 401 }
+        specify { expect(response).to have_http_status(401) }
+      end
+    end
+
+    context 'when user is anonymous' do
+      subject(:response) { get :show }
+      let(:code) { 200 }
+      it { is_expected.to have_http_status(302) }
     end
   end
 end
