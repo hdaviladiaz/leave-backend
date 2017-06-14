@@ -11,11 +11,6 @@
   ],
   "buildpacks": [
 
-  ],
-  "proxies": {
-    "/api/": {
-      "origin": "https://api.example.com"
-    }
-  }
-
+  ]
+  
 }
