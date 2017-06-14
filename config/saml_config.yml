@@ -1,4 +1,34 @@
-auth:
-  issuer: "http://localhost:3000/"
+default: &default
   fingerprint: "E3:8B:22:E6:A3:85:FA:5E:55:E2:50:47:61:78:EC:DE:DB:2E:B0:E3"
-  target_url: "https://thoughtworks.oktapreview.com/app/thoughtworkspreview_labsleaveecuadorlocal_1/exka3br8bfToxcKMm0h7/sso/saml"
+
+development:
+  auth:
+    <<: *default
+    issuer: "http://localhost:3000/"
+    target_url: "https://thoughtworks.oktapreview.com/app/thoughtworkspreview_labsleaveecuadorlocal_1/exka3br8bfToxcKMm0h7/sso/saml"
+    assertion_url: "http://localhost:3000/auth/saml/callback"
+    ui_address: "http://localhost:3006/"
+
+ci:
+  auth:
+    <<: *default
+    issuer: "https://leave-backend-qa.herokuapp.com/"
+    target_url: "https://thoughtworks.oktapreview.com/app/thoughtworkspreview_labsleaveecuador_1/exka3bhzpvuqc6Qvb0h7/sso/saml"
+    assertion_url: "https://leave-backend-qa.herokuapp.com/auth/saml/callback"
+    ui_address: "https://leave-ui-qa.herokuapp.com/"
+
+test:
+  auth:
+    <<: *default
+    issuer: "http://localhost:3000/"
+    target_url: "https://thoughtworks.oktapreview.com/app/thoughtworkspreview_labsleaveecuadorlocal_1/exka3br8bfToxcKMm0h7/sso/saml"
+    assertion_url: "http://localhost:3000/auth/saml/callback"
+    ui_address: "http://localhost:3006/"
+
+production:
+  auth:
+    <<: *default
+    issuer: "https://leave-backend.herokuapp.com/"
+    target_url: "https://thoughtworks.oktapreview.com/app/thoughtworkspreview_labsleaveecuador_1/exka3bhzpvuqc6Qvb0h7/sso/saml"
+    assertion_url: "https://leave-backend.herokuapp.com/auth/saml/callback"
+    ui_address: "https://leave-ui.herokuapp.com/"
