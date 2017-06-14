@@ -11,6 +11,6 @@ class AuthController < ApplicationController
     auth = request.env['omniauth.auth']
     user = User.new(auth[:uid])
     jwt = @token.encode(user)
-    redirect_to('http://localhost:3006/auth/' + jwt)
+    redirect_to(CONFIG_AUTH['ui_address'] + 'auth/' + jwt)
   end
 end
