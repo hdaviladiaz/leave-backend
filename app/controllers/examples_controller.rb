@@ -1,5 +1,6 @@
 class ExamplesController < ApplicationController
   before_action :set_example, only: [:show, :update, :destroy]
+  skip_before_action :require_sign_in!
 
   # GET /examples
   def index
