@@ -36,6 +36,17 @@ describe LeaveService , type: :service do
       }
     end
 
+    let(:startDateIsSmallerThanHiredDate) do
+      {
+        result: {
+          employeeId:"15576",
+          hireDate:"25/06/2017",
+          startDate:"21/06/2017",
+          endDate:"30/06/2017"
+        }
+      }
+    end
+
     let(:startDate) { Faker::Date.forward(50) }
     let(:endDate) { Faker::Date.forward(50) }
 
@@ -51,11 +62,16 @@ describe LeaveService , type: :service do
       expect(leave_service.createLeaveRequest(leave_request)).to eq('Error! The start date is greater than end date')
     end
 
-    it 'should not create leace-request when user choose a startDate smaller than today' do
+    it 'should not create leave-request when user choose a startDate smaller than today' do
       leave_service = LeaveService. new
       leave_request = JSON.parse(startDateIsSmallerThanToday.to_json())
       expect(leave_service.createLeaveRequest(leave_request)).to eq('Error! The start date is smaller than today')
     end
 
+    it 'should not create leave-request when user choose a startDate smaller than hired date' do
+      leave_service = LeaveService. new
+      leave_request = JSON.parse(startDateIsSmallerThanHiredDate.to_json())
+      expect(leave_service.createLeaveRequest(leave_request)).to eq('Error! The start date is smaller than hired date')
+    end
   end
 end
