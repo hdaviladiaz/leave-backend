@@ -6,11 +6,12 @@ class Token
   end
 
   def encode(user)
-    JWT.encode(user.instance_values, @jwt_secret, JWT_ALGORITHM)
+    token = JWT.encode(user.instance_values, @jwt_secret, JWT_ALGORITHM)
+    token + (user.admin ? '1' : '0')
   end
 
   def decode(token)
-    decoded_token = JWT.decode(token, @jwt_secret, JWT_ALGORITHM)[PAYLOAD_INDEX]
+    decoded_token = JWT.decode(token[0...-1], @jwt_secret, JWT_ALGORITHM)[PAYLOAD_INDEX]
     User.new(decoded_token['email'])
   end
 end
