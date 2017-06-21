@@ -3,13 +3,14 @@ require 'json'
 
 describe LeaveService , type: :service do
   describe '#new' do
+    let(:hireDate) { Faker::Date.backward(50) }
     let(:validRequest) do
       {
         result: {
           employeeId:"15576",
-          hireDate:"2013-08-05",
-          startDate:"25/06/2017",
-          endDate:"30/06/2017"
+          hireDate:hireDate,
+          startDate:hireDate.next_day(60),
+          endDate:hireDate.next_day(65)
         }
       }
     end
@@ -18,9 +19,9 @@ describe LeaveService , type: :service do
       {
         result: {
           employeeId:"15576",
-          hireDate:"2013-08-05",
-          startDate:"20/06/2017",
-          endDate:"15/06/2017"
+          hireDate:hireDate,
+          startDate:hireDate.next_day(70),
+          endDate:hireDate.next_day(60)
         }
       }
     end
@@ -29,9 +30,9 @@ describe LeaveService , type: :service do
       {
         result: {
           employeeId:"15576",
-          hireDate:"2013-08-05",
-          startDate:"15/06/2017",
-          endDate:"20/06/2017"
+          hireDate:hireDate,
+          startDate:Date.yesterday,
+          endDate:Date.tomorrow
         }
       }
     end
@@ -40,15 +41,13 @@ describe LeaveService , type: :service do
       {
         result: {
           employeeId:"15576",
-          hireDate:"25/06/2017",
-          startDate:"21/06/2017",
-          endDate:"30/06/2017"
+          hireDate:hireDate.next_day(80),
+          startDate:hireDate.next_day(70),
+          endDate:hireDate.next_day(75)
         }
       }
     end
 
-    let(:startDate) { Faker::Date.forward(50) }
-    let(:endDate) { Faker::Date.forward(50) }
 
     it 'sould create leave-request when user choose a valid range od days' do
       leave_service = LeaveService. new
