@@ -53,12 +53,19 @@ Go inside the project folder and update the dependencies
 Then create the database Using
 
         rake db:create
-        rake db:setup
         rake db:migrate RAILS_ENV=development
+        rake db:setup
+        
+## Environment variables of system
 
-Run the server
+Set the next variables from a terminal
 
-        rails s
+    export TOKEN_JIGSAW=YYYY 
+    export JWT_SECRET=123456        
+
+## Run the server
+
+    rails s
 
 <!---
 Things you may want to cover:
