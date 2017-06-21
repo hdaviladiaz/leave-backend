@@ -54,6 +54,7 @@ Then create the database Using
 
         rake db:create
         rake db:setup
+        rake db:migrate RAILS_ENV=development
 
 Run the server
 
