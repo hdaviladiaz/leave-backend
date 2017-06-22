@@ -13,6 +13,12 @@ class ApplicationController < ActionController::API
     @user = token.decode(encoded_token)
   end
 
+  def verify_admin!
+    if (@user.rol != "admin")
+      render json: { status: :unauthorized, error: "No tiene permisos" }, status: :unauthorized
+    end
+  end
+
   def redirect_to_auth
     render json: "/auth/saml?redirectUrl=#{URI.encode(request.path)}", status: :see_other
   end
