@@ -1,7 +1,8 @@
 class LeaveRequestsController < ApplicationController
   before_action :set_leave_request, only: [:show, :update, :destroy]
+  before_action :verify_admin!, only: [:index]
 
-  # GET /leave_requests
+  # GET /leave_requests only for admins
   def index
     @leave_requests = LeaveRequest.all
     render json: @leave_requests
