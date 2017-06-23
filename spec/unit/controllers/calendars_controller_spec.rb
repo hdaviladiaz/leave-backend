@@ -1,20 +1,26 @@
 require 'rails_helper'
 
 describe CalendarsController, type: :controller do
-  let(:calendar) { Faker::Lorem.sentence }
+  let(:data) {[{data: Faker::Lorem.sentence}]}
+  let(:calendar) {data.to_json}
+  let(:response_expected) {(data.concat(data)).to_json}
+
   let(:jigsaw_token) { Faker::Crypto.sha1 }
-  let(:uri) { JIGSAW_CALENDAR_URL+"#{params}" }
   let(:user) { User.new(Faker::Internet.email) }
   let(:token) { Token.new.encode(user) }
 
   before do
-    stub_request(:get, uri).to_return(body: calendar, status: code)
+    year = Time.zone.now.year
+    stub_jigsaw_calendar_request(year);
+    stub_jigsaw_calendar_request(year+1);
     ENV['JWT_SECRET'] = Faker::Crypto.sha256
   end
 
-  describe '#index' do
-    let(:params) { "/#{HOME_OFFICE}/#{Time.zone.now.year}" }
+  def stub_jigsaw_calendar_request(year)
+    stub_request(:get, JIGSAW_CALENDAR_URL+"/#{HOME_OFFICE}/#{year}").to_return(body: calendar, status: code)
+  end
 
+  describe '#index' do
     context 'when user is logged in' do
       subject(:response) do
         request.headers[:Token] = token
@@ -24,7 +30,7 @@ describe CalendarsController, type: :controller do
       context 'when request is authorized' do
         let(:code) { 200 }
         it { is_expected.to have_http_status(200) }
-        specify { expect(response.body).to eq(calendar) }
+        specify { expect(response.body).to eq(response_expected) }
       end
 
       context 'when request is not authorized' do
