@@ -8,8 +8,6 @@ class InitialDataProcessor
   end
 
   def get_employee_information (csv_file, header)
-    remove_first_line_when_this_is_not_the_header(csv_file)
-    remove_the_last_line_when_this_is_total(csv_file)
     current_header_array = csv_file[0]
 
     (0..current_header_array.length).each do |i|
