@@ -14,8 +14,8 @@ class ApplicationController < ActionController::API
   end
 
   def verify_admin!
-    if (@user.rol != "admin")
-      render json: { status: :unauthorized, error: "No tiene permisos" }, status: :unauthorized
+    if @user.rol != 'admin'
+      render json: { status: :unauthorized, error: 'No tiene permisos' }, status: :unauthorized
     end
   end
 

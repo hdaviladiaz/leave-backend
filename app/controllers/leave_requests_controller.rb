@@ -8,6 +8,18 @@ class LeaveRequestsController < ApplicationController
     render json: @leave_requests
   end
 
+  # GET /leave_requests/me
+  def me
+    @leave_requests = LeaveRequest.where(employee_id: @user.email)
+    render json: @leave_requests
+  end
+
+  # GET /leave_requests/me/approve
+  def approve
+    @leave_requests = LeaveRequest.where(approver_id: @user.email)
+    render json: @leave_requests
+  end
+
   # GET /leave_requests/1
   def show
     render json: @leave_request
