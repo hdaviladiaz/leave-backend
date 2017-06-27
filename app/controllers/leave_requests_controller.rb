@@ -27,8 +27,8 @@ class LeaveRequestsController < ApplicationController
 
   # POST /leave_requests
   def create
-    @leave_request = LeaveRequest.new(leave_request_params)
-
+  @leave_request = LeaveRequest.new(leave_request_params)
+  @leave_request.employee_id = @user.email;
     if @leave_request.save
       render json: @leave_request, status: :created, location: @leave_request
     else
