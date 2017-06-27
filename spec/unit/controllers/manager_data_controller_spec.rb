@@ -48,7 +48,8 @@ describe ManagerInitialDataController, type: :controller do
                     first_element_json.key?('end_date') &&
                     first_element_json.key?('return_date') &&
                     first_element_json.key?('employee_id') &&
-                    first_element_json.key?('initial_load')
+                    first_element_json.key?('initial_load') &&
+                    first_element_json.key?('status')
       expect(isContained).to be(true)
     end
 

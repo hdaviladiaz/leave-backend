@@ -15,7 +15,8 @@ class ManagerInitialDataController < ApplicationController
                       'end_date' => build_final_date,
                       'return_date' => build_final_date,
                       'employee_id' => row[0],
-                      'initial_load' => true
+                      'initial_load' => true,
+                      'status' => 'taken'
                     }
     return dictionary_row
   end
