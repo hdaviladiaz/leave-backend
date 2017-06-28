@@ -1,8 +1,16 @@
 require 'rails_helper'
 
-RSpec.describe LeaveRequestsController, type: :controller do
+describe LeaveRequestsController, type: :controller do
+  let(:people) { '{"preferredName":"Name"}' }
+  let(:jigsaw_token) { Faker::Crypto.sha1 }
+  let(:uri) { "https://jigsaw.thoughtworks.net/api/people#{params}" }
   let(:user) { User.new(Faker::Internet.email) }
   let(:token) { Token.new.encode(user) }
+  let(:params) { '' }
+  before do
+    stub_request(:get, uri).to_return(body: people, status: 200)
+    ENV['JWT_SECRET'] = Faker::Crypto.sha256
+  end
 
   let(:userAdmin) { User.new(ADMIN_USERS.split(',')[0] + '@thoughtworks.com') }
   let(:tokenAdmin) { Token.new.encode(userAdmin) }
@@ -12,8 +20,9 @@ RSpec.describe LeaveRequestsController, type: :controller do
       start_date: Faker::Date.forward(10),
       end_date: Faker::Date.forward(10),
       return_date: Faker::Date.forward(10),
-      employee_id: Faker::Number.between(1, 10),
-      approver_id: Faker::Number.between(1, 10)
+      employee_id: Faker::Internet.email,
+      approver_id: Faker::Internet.email,
+      status: [:pending, :approved, :rejected, :taken, :not_taken].sample
     }
   end
 
@@ -80,7 +89,22 @@ RSpec.describe LeaveRequestsController, type: :controller do
     end
   end
 
+   describe 'GET #taken_leaves' do    
+    it 'returns 303 response' do
+      request.headers[:Token] = ''
+      get :taken_leaves, params: {}
+      expect(response).to have_http_status(303)
+    end
+
+    it 'returns a success response' do
+      request.headers[:Token] = tokenAdmin
+      get :taken_leaves, params: {}
+      expect(response).to be_success
+    end
+  end
+
   describe 'POST #create' do
+    let(:params) { "/#{user.username}" }
     context 'with valid params' do
       it 'creates a new LeaveRequest' do
         expect do
@@ -110,8 +134,8 @@ RSpec.describe LeaveRequestsController, type: :controller do
       let(:start_date) { Faker::Date.forward(10) }
       let(:end_date) { Faker::Date.forward(10) }
       let(:return_date) { Faker::Date.forward(10) }
-      let(:employee_id) { Faker::Number.between(1, 10) }
-      let(:approver_id) { Faker::Number.between(1, 10) }
+      let(:employee_id) { Faker::Internet.email }
+      let(:approver_id) { Faker::Internet.email }
       let(:new_attributes) do
         {
           start_date: start_date,
