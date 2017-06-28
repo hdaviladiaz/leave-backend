@@ -1,7 +1,7 @@
 class LeaveRequestsController < ApplicationController
   before_action :set_leave_request, only: [:show, :update, :destroy]
   before_action :verify_admin!, only: [:index]
-  
+
   # GET /leave_requests only for admins
   def index
     @leave_requests = LeaveRequest.all
@@ -27,8 +27,9 @@ class LeaveRequestsController < ApplicationController
 
   # POST /leave_requests
   def create
-  @leave_request = LeaveRequest.new(leave_request_params)
-  @leave_request.employee_id = @user.email;
+    @leave_request = LeaveRequest.new(leave_request_params)
+    @leave_request.employee_id = @user.email
+    @leave_request.status = 0
     if @leave_request.save
       render json: @leave_request, status: :created, location: @leave_request
     else
