@@ -1,5 +1,5 @@
 class LeaveRequestsController < ApplicationController
-  before_action :set_leave_request, only: [:show, :update, :destroy]
+  before_action :set_leave_request, only: [:show, :update, :destroy, :approved, :rejected]
   before_action :verify_admin!, only: [:index]
 
   # GET /leave_requests only for admins
@@ -46,6 +46,26 @@ class LeaveRequestsController < ApplicationController
     end
   end
 
+  # GET /leave_requests/approved/1
+  def approved
+    @leave_request.status = "approved"
+     if @leave_request.save
+      render json: @leave_request, status: :created, location: @leave_request
+    else
+      render json: @leave_request.errors, status: :unprocessable_entity
+    end
+  end
+
+   # GET /leave_requests/rejected/1
+  def rejected
+    @leave_request.status = "rejected"
+     if @leave_request.save
+      render json: @leave_request, status: :created, location: @leave_request
+    else
+      render json: @leave_request.errors, status: :unprocessable_entity
+    end
+  end
+
   # DELETE /leave_requests/1
   def destroy
     @leave_request.destroy
@@ -61,5 +81,9 @@ class LeaveRequestsController < ApplicationController
   # Only allow a trusted parameter "white list" through.
   def leave_request_params
     params.require(:leave_request).permit(:employee_id, :start_date, :end_date, :return_date, :approver_id)
+  end
+
+  def leave_request_params_id
+    params.require(:leave_request).permit(:id)
   end
 end
