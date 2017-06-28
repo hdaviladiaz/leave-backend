@@ -14,7 +14,7 @@ RSpec.describe LeaveRequestsController, type: :controller do
       return_date: Faker::Date.forward(10),
       employee_id: Faker::Internet.email,
       approver_id: Faker::Internet.email,
-      status: 'pending'
+      status: [:pending, :approved, :rejected, :taken, :not_taken].sample
     }
   end
 
@@ -81,10 +81,17 @@ RSpec.describe LeaveRequestsController, type: :controller do
     end
   end
 
-   describe 'GET #taken_leaves' do
-     it 'returns 401 response' do
+   describe 'GET #taken_leaves' do    
+    it 'returns 303 response' do
+      request.headers[:Token] = ''
       get :taken_leaves, params: {}
-      expect(response).to have_http_status(401)
+      expect(response).to have_http_status(303)
+    end
+
+    it 'returns a success response' do
+      request.headers[:Token] = tokenAdmin
+      get :taken_leaves, params: {}
+      expect(response).to be_success
     end
   end
 
@@ -118,8 +125,8 @@ RSpec.describe LeaveRequestsController, type: :controller do
       let(:start_date) { Faker::Date.forward(10) }
       let(:end_date) { Faker::Date.forward(10) }
       let(:return_date) { Faker::Date.forward(10) }
-      let(:employee_id) { Faker::Number.between(1, 10) }
-      let(:approver_id) { Faker::Number.between(1, 10) }
+      let(:employee_id) { Faker::Internet.email }
+      let(:approver_id) { Faker::Internet.email }
       let(:new_attributes) do
         {
           start_date: start_date,

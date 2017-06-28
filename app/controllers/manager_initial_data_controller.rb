@@ -1,5 +1,8 @@
 class ManagerInitialDataController < ApplicationController
 
+  THOUGHTWORKS_DOMAIN = '@thoughtworks.com'
+  INITIAL_DATA_APPROVER = 'mscudero@thoughtworks.com'
+
   def initialize
     @matrix_employee_information_data
   end
@@ -14,7 +17,8 @@ class ManagerInitialDataController < ApplicationController
     dictionary_row = {'start_date' => build_start_date(row[2] + row[3]),
                       'end_date' => build_final_date,
                       'return_date' => build_final_date,
-                      'employee_id' => row[0],
+                      'employee_id' => row[0].to_s + THOUGHTWORKS_DOMAIN,
+                      'approver_id' => INITIAL_DATA_APPROVER,
                       'initial_load' => true,
                       'status' => 'taken'
                     }

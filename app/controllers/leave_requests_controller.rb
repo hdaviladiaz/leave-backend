@@ -23,8 +23,9 @@ class LeaveRequestsController < ApplicationController
   #GET /leave_requests/taken_leaves
   def taken_leaves
     @leave_requests = LeaveRequest.where(status: 'taken')
-    #p(@user)
-    #p(@leave_requests)
+                                  .where(initial_load: true)
+                                  .where(employee_id: @user.email)
+    p(@leave_requests)
     render json: @leave_requests
   end
 
@@ -35,7 +36,6 @@ class LeaveRequestsController < ApplicationController
 
   # POST /leave_requests
   def create
-    p(leave_request_params)
     @leave_request = LeaveRequest.new(leave_request_params)
     @leave_request.employee_id = @user.email
     @leave_request.status = 0
