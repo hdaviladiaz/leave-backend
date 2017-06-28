@@ -36,7 +36,8 @@ class LeaveRequestsController < ApplicationController
   # POST /leave_requests
   def create
     @leave_request = LeaveRequest.new(leave_request_params)
-
+    @leave_request.employee_id = @user.email
+    @leave_request.status = 0
     if @leave_request.save
       render json: @leave_request, status: :created, location: @leave_request
     else
@@ -59,6 +60,7 @@ class LeaveRequestsController < ApplicationController
   end
 
   private
+
   # Use callbacks to share common setup or constraints between actions.
   def set_leave_request
     @leave_request = LeaveRequest.find(params[:id])
