@@ -44,6 +44,34 @@ RSpec.describe LeaveRequestsController, type: :controller do
     end
   end
 
+  describe 'GET #approve' do
+    it 'returns 303 response' do
+      request.headers[:Token] = ''
+      get :approve, params: {}
+      expect(response).to have_http_status(303)
+    end
+
+    it 'returns a success response' do
+      request.headers[:Token] = tokenAdmin
+      get :approve, params: {}
+      expect(response).to be_success
+    end
+  end
+
+  describe 'GET #me' do
+    it 'returns 303 response' do
+      request.headers[:Token] = ''
+      get :me, params: {}
+      expect(response).to have_http_status(303)
+    end
+
+    it 'returns a success response' do
+      request.headers[:Token] = tokenAdmin
+      get :me, params: {}
+      expect(response).to be_success
+    end
+  end
+
   describe 'GET #show' do
     it 'returns a success response' do
       leave_request = LeaveRequest.create! valid_attributes

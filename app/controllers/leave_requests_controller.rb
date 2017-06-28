@@ -1,7 +1,7 @@
 class LeaveRequestsController < ApplicationController
   before_action :set_leave_request, only: [:show, :update, :destroy]
   before_action :verify_admin!, only: [:index]
-
+  
   # GET /leave_requests only for admins
   def index
     @leave_requests = LeaveRequest.all
@@ -51,6 +51,7 @@ class LeaveRequestsController < ApplicationController
   end
 
   private
+
   # Use callbacks to share common setup or constraints between actions.
   def set_leave_request
     @leave_request = LeaveRequest.find(params[:id])
