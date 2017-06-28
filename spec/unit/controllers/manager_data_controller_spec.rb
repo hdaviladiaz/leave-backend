@@ -12,8 +12,9 @@ describe ManagerInitialDataController, type: :controller do
       start_date: Faker::Date.forward(10),
       end_date: Faker::Date.forward(10),
       return_date: Faker::Date.forward(10),
-      employee_id: Faker::Number.between(1, 10),
-      initial_load: true
+      employee_id: Faker::Internet.email,
+      initial_load: true,
+      status: 'taken'
     }
   }
 

@@ -7,11 +7,13 @@ RSpec.describe LeaveRequestsController, type: :routing do
       expect(:get => "/leave_requests").to route_to("leave_requests#index")
     end
 
+    it "routes to #taken_leaves" do
+      expect(:get => "/leave_requests/taken_leaves").to route_to("leave_requests#taken_leaves")
+    end
 
     it "routes to #show" do
       expect(:get => "/leave_requests/1").to route_to("leave_requests#show", :id => "1")
     end
-
 
     it "routes to #create" do
       expect(:post => "/leave_requests").to route_to("leave_requests#create")

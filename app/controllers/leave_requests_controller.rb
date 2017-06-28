@@ -20,6 +20,14 @@ class LeaveRequestsController < ApplicationController
     render json: @leave_requests
   end
 
+  #GET /leave_requests/taken_leaves
+  def taken_leaves
+    @leave_requests = LeaveRequest.where(status: 'taken')
+    #p(@user)
+    #p(@leave_requests)
+    render json: @leave_requests
+  end
+
   # GET /leave_requests/1
   def show
     render json: @leave_request

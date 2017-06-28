@@ -52,6 +52,13 @@ RSpec.describe LeaveRequestsController, type: :controller do
     end
   end
 
+   describe 'GET #taken_leaves' do
+     it 'returns 401 response' do
+      get :taken_leaves, params: {}
+      expect(response).to have_http_status(401)
+    end
+  end
+
   describe 'POST #create' do
     context 'with valid params' do
       it 'creates a new LeaveRequest' do
