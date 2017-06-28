@@ -10,13 +10,13 @@ class LeaveRequestsController < ApplicationController
 
   # GET /leave_requests/me
   def me
-    @leave_requests = LeaveRequest.where(employee_id: @user.email)
+    @leave_requests = LeaveRequest.where(employee_id: @user.email).order('start_date')
     render json: @leave_requests
   end
 
   # GET /leave_requests/me/approve
   def approve
-    @leave_requests = LeaveRequest.where(approver_id: @user.email)
+    @leave_requests = LeaveRequest.where(approver_id: @user.email).order('start_date')
     render json: @leave_requests
   end
 
@@ -36,10 +36,10 @@ class LeaveRequestsController < ApplicationController
 
   # POST /leave_requests
   def create
-    @leave_request = LeaveRequest.new(leave_request_params)
-    @leave_request.employee_id = @user.email
-    @leave_request.status = 0
-    if @leave_request.save
+    params = leave_request_params
+    params[:employee_id] = @user.email
+    @leave_request = LeaveService.create(params)
+    if @leave_request.persisted?
       render json: @leave_request, status: :created, location: @leave_request
     else
       render json: @leave_request.errors, status: :unprocessable_entity
