@@ -1,8 +1,16 @@
 require 'rails_helper'
 
-RSpec.describe LeaveRequestsController, type: :controller do
+describe LeaveRequestsController, type: :controller do
+  let(:people) { '{"preferredName":"Name"}' }
+  let(:jigsaw_token) { Faker::Crypto.sha1 }
+  let(:uri) { "https://jigsaw.thoughtworks.net/api/people#{params}" }
   let(:user) { User.new(Faker::Internet.email) }
   let(:token) { Token.new.encode(user) }
+  let(:params) { '' }
+  before do
+    stub_request(:get, uri).to_return(body: people, status: 200)
+    ENV['JWT_SECRET'] = Faker::Crypto.sha256
+  end
 
   let(:userAdmin) { User.new(ADMIN_USERS.split(',')[0] + '@thoughtworks.com') }
   let(:tokenAdmin) { Token.new.encode(userAdmin) }
@@ -81,6 +89,7 @@ RSpec.describe LeaveRequestsController, type: :controller do
   end
 
   describe 'POST #create' do
+    let(:params) { "/#{user.username}" }
     context 'with valid params' do
       it 'creates a new LeaveRequest' do
         expect do
