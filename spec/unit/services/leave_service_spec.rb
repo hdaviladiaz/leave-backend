@@ -18,6 +18,7 @@ describe LeaveService, type: :service do
     let(:validRequest) do
       {
         employee_id: user.email,
+        approver_id: user.email,
         start_date: date.next_day(60),
         end_date: date.next_day(65),
         return_date: date.next_day(66)
