@@ -20,12 +20,15 @@ class LeaveRequestsController < ApplicationController
     render json: @leave_requests
   end
 
+  #GET /leave_requests/me/available_leave_days
+  def available_leave_days
+  end 
+  
   #GET /leave_requests/taken_leaves
   def taken_leaves
     @leave_requests = LeaveRequest.where(status: 'taken')
                                   .where(initial_load: true)
                                   .where(employee_id: @user.email)
-    p(@leave_requests)
     render json: @leave_requests
   end
 
