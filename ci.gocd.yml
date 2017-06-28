@@ -1,0 +1,60 @@
+pipelines:
+  leave-ecuador-backend:
+    group: leave
+    materials:
+      repo:
+        git: git@git.thoughtworks.net:leave/leave-backend.git
+    stages:
+      - unit:
+          environment_variables:
+            RAILS_ENV: ci
+          jobs:
+            build:
+              tasks:
+                - exec:
+                    command: /bin/bash
+                    arguments:
+                     - -c
+                     - ./scripts/unit_test_ci.sh
+      - deploy-qa:
+          approval:
+            type: manual
+          environment_variables:
+            APP_BACKEND: leave-backend
+            APP_ENV: qa
+          jobs:
+            deploy:
+              tasks:
+                - exec:
+                    command: /bin/bash
+                    arguments:
+                     - -c
+                     - ./scripts/deploy.sh
+      - deploy-uat:
+          approval:
+            type: manual
+          environment_variables:
+            APP_BACKEND: leave-backend
+            APP_ENV: uat
+          jobs:
+            deploy:
+              tasks:
+                - exec:
+                    command: /bin/bash
+                    arguments:
+                     - -c
+                     - ./scripts/deploy.sh
+      - deploy-prod:
+          approval:
+            type: manual
+          environment_variables:
+            APP_BACKEND: leave-backend
+            APP_ENV: prod
+          jobs:
+            deploy:
+              tasks:
+                - exec:
+                    command: /bin/bash
+                    arguments:
+                     - -c
+                     - ./scripts/deploy.sh
