@@ -7,7 +7,7 @@ RSpec.describe LeaveRequest, type: :model do
       end_date: Faker::Date.forward(10),
       return_date: Faker::Date.forward(10),
       employee_id: Faker::Internet.email,
-      approver_id: Faker::Number.between(1, 10),
+      approver_id: Faker::Internet.email,
       initial_load: Faker::Boolean.boolean
     )
   end

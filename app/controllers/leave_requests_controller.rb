@@ -35,6 +35,7 @@ class LeaveRequestsController < ApplicationController
 
   # POST /leave_requests
   def create
+    p(leave_request_params)
     @leave_request = LeaveRequest.new(leave_request_params)
     @leave_request.employee_id = @user.email
     @leave_request.status = 0
