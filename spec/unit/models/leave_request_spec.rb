@@ -8,7 +8,10 @@ RSpec.describe LeaveRequest, type: :model do
       return_date: Faker::Date.forward(10),
       employee_id: Faker::Internet.email,
       approver_id: Faker::Internet.email,
-      initial_load: Faker::Boolean.boolean
+      initial_load: Faker::Boolean.boolean,
+      taken_days: Faker::Number.between(1, 10),
+      remaining_days: Faker::Number.between(1, 10),
+      total_days: Faker::Number.between(1, 10)
     )
   end
 
@@ -39,5 +42,21 @@ RSpec.describe LeaveRequest, type: :model do
   it 'is a valid leave request without flag initial load' do
     subject.initial_load = nil
     expect(subject).to be_valid
+  end
+
+  it 'is not valid leave request without taken days' do
+    subject.taken_days = nil
+    expect(subject).to_not be_valid
+  end
+
+
+  it 'is not valid leave request without remaining days' do
+    subject.remaining_days = nil
+    expect(subject).to_not be_valid
+  end
+
+  it 'is not valid leave request without total days' do
+    subject.total_days = nil
+    expect(subject).to_not be_valid
   end
 end

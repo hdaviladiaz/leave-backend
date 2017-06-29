@@ -21,7 +21,10 @@ describe LeaveService, type: :service do
         approver_id: user.email,
         start_date: date.next_day(60),
         end_date: date.next_day(65),
-        return_date: date.next_day(66)
+        return_date: date.next_day(66),
+        taken_days: Faker::Number.between(1, 10),
+        remaining_days: Faker::Number.between(1, 10),
+        total_days: Faker::Number.between(1, 10)
       }
     end
 

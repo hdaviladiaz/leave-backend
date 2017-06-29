@@ -14,6 +14,9 @@ describe ManagerInitialDataController, type: :controller do
       return_date: Faker::Date.forward(10),
       employee_id: Faker::Internet.email,
       approver_id: Faker::Internet.email,
+      taken_days: Faker::Number.between(1, 10),
+      remaining_days: Faker::Number.between(1, 10),
+      total_days: Faker::Number.between(1, 10),
       initial_load: true,
       status: 'taken'
     }
@@ -51,6 +54,9 @@ describe ManagerInitialDataController, type: :controller do
                     first_element_json.key?('return_date') &&
                     first_element_json.key?('employee_id') &&
                     first_element_json.key?('initial_load') &&
+                    first_element_json.key?('taken_days') &&
+                    first_element_json.key?('remaining_days') &&
+                    first_element_json.key?('total_days') &&
                     first_element_json.key?('status')
       expect(isContained).to be(true)
     end

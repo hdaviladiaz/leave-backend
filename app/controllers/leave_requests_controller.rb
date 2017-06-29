@@ -92,7 +92,7 @@ class LeaveRequestsController < ApplicationController
 
   # Only allow a trusted parameter "white list" through.
   def leave_request_params
-    params.require(:leave_request).permit(:employee_id, :start_date, :end_date, :return_date, :approver_id)
+    params.require(:leave_request).permit(:employee_id, :start_date, :end_date, :return_date, :approver_id, :taken_days, :remaining_days, :total_days)
   end
 
   def leave_request_params_id

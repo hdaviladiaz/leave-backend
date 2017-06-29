@@ -14,19 +14,33 @@ class ManagerInitialDataController < ApplicationController
   end
 
   def parse_row_data_to_json(row)
-    dictionary_row = {'start_date' => build_start_date(row[2] + row[3]),
+
+    start_date = nil
+    if is_number?(row[2]) and is_number?(row[3])
+      start_date = build_start_date(row[2].to_f + row[3].to_f)
+    end
+
+    dictionary_row = {'start_date' => start_date,
                       'end_date' => build_final_date,
                       'return_date' => build_final_date,
                       'employee_id' => row[0].to_s + THOUGHTWORKS_DOMAIN,
                       'approver_id' => INITIAL_DATA_APPROVER,
                       'initial_load' => true,
+                      'taken_days' => 1,
+                      'remaining_days' => 2,
+                      'total_days' => 3,
                       'status' => 'taken'
                     }
     return dictionary_row
   end
+  
+  def is_number? string
+    true if Float(string) rescue false
+  end
 
   def build_start_date(taken_leave_days)
-    Date.today - taken_leave_days.to_i
+    startdate = Date.today  - taken_leave_days.days
+    return startdate
   end
 
   def build_final_date()

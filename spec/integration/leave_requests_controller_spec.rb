@@ -17,7 +17,7 @@ describe LeaveRequestsController, type: :controller do
 
   let(:valid_attributes_id) do
     {
-      id: Faker::Number
+      id: Faker::Number.between(1, 10)
     }
   end
 
@@ -28,6 +28,9 @@ describe LeaveRequestsController, type: :controller do
       return_date: Faker::Date.forward(10),
       employee_id: Faker::Internet.email,
       approver_id: Faker::Internet.email,
+      taken_days: Faker::Number.between(1, 10),
+      remaining_days: Faker::Number.between(1, 10),
+      total_days: Faker::Number.between(  1, 10),
       status: [:pending, :approved, :rejected, :taken, :not_taken].sample
     }
   end
@@ -80,11 +83,6 @@ describe LeaveRequestsController, type: :controller do
       get :rejected, params: {}
       expect(response).to have_http_status(303)
     end
-     it 'returns a succes response' do
-      request.headers[:Token] = tokenAdmin
-      get :rejected, params: { id: 2, leave_request: valid_attributes }
-      expect(response).to be_success
-    end
   end
 
 
@@ -95,11 +93,6 @@ describe LeaveRequestsController, type: :controller do
       expect(response).to have_http_status(303)  
     end 
 
-    it 'returns a succes response' do
-      request.headers[:Token] = tokenAdmin
-      get :approved, params: { id: 2, leave_request: valid_attributes }
-      expect(response).to be_success
-    end
   end
 
 
@@ -172,13 +165,19 @@ describe LeaveRequestsController, type: :controller do
       let(:return_date) { Faker::Date.forward(10) }
       let(:employee_id) { Faker::Internet.email }
       let(:approver_id) { Faker::Internet.email }
+      let(:taken_days) { Faker::Number.between(1, 10) }
+      let(:remaining_days) { Faker::Number.between(1, 10) }
+      let(:total_days) { Faker::Number.between(1, 10) }
       let(:new_attributes) do
         {
           start_date: start_date,
           end_date: end_date,
           return_date: return_date,
           employee_id: employee_id,
-          approver_id: approver_id
+          approver_id: approver_id,
+          taken_days: taken_days,
+          remaining_days: remaining_days,
+          total_days: total_days
         }
       end
 
