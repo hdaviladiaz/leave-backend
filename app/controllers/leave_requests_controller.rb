@@ -1,6 +1,8 @@
 class LeaveRequestsController < ApplicationController
+  # skip_before_action :require_sign_in!
   before_action :set_leave_request, only: [:show, :update, :destroy, :approved, :rejected]
   before_action :verify_admin!, only: [:index]
+  
 
   # GET /leave_requests only for admins
   def index
@@ -27,14 +29,14 @@ class LeaveRequestsController < ApplicationController
 
   # GET /leave_requests/all_taken
   def all_taken
-    @leave_requests_taken = LeaveRequest.where(status: 'taken')
-    render json: @leave_requests
+    @leave_requests_taken = LeaveRequest.where(status: 'taken').order('start_date')
+    render json: @leave_requests_taken
   end
 
   # GET /leave_requests/all_approved
   def all_approved
-    @leave_requests_approved = LeaveRequest.where(status: 'approved')
-    render json: @leave_requests
+    @leave_requests_approved = LeaveRequest.where(status: 'approved').order('start_date')
+    render json: @leave_requests_approved
   end
 
 

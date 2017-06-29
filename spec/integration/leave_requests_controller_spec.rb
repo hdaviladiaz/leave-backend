@@ -130,6 +130,27 @@ describe LeaveRequestsController, type: :controller do
     end
   end
 
+
+  describe 'GET #all_approved' do
+    it 'returns 303 response' do 
+      request.headers[:Token] = ''
+      get :all_approved, params: {}
+      expect(response).to have_http_status(303)
+    end
+
+    it 'returns a success response' do
+      request.headers[:Token] = tokenAdmin
+      get :all_approved, params: {}
+      expect(response).to be_success
+    end
+
+    it 'render a JSON with the all_taken requests' do
+      get :all_approved
+      expect(response).to be_success
+      expect(response.content_type).to eq('application/json')
+    end
+  end
+
   describe 'GET #show' do
     it 'returns a success response' do
       leave_request = LeaveRequest.create! valid_attributes

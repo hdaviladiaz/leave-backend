@@ -47,5 +47,9 @@ RSpec.describe LeaveRequestsController, type: :routing do
       expect(:get => "/leave_requests/all_taken").to route_to("leave_requests#all_taken")
     end
 
+    it "routes to #all_approved" do
+      expect(:get => "/leave_requests/all_approved").to route_to("leave_requests#all_approved")
+    end
+
   end
 end
