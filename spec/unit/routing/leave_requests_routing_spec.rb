@@ -23,6 +23,14 @@ RSpec.describe LeaveRequestsController, type: :routing do
       expect(:post => "/leave_requests").to route_to("leave_requests#create")
     end
 
+    it 'routes to #approved' do
+      expect(:get => "/leave_requests/approved").to route_to("leave_requests#approved")
+    end
+
+     it 'routes to #rejected' do
+      expect(:get => "/leave_requests/rejected").to route_to("leave_requests#rejected")
+    end
+    
     it "routes to #update via PUT" do
       expect(:put => "/leave_requests/1").to route_to("leave_requests#update", :id => "1")
     end

@@ -66,9 +66,9 @@ class LeaveRequestsController < ApplicationController
     else
       render json: @leave_request.errors, status: :unprocessable_entity
     end
-  end
+   end
 
-   # GET /leave_requests/rejected/1
+  # GET /leave_requests/rejected/1
   def rejected
     @leave_request.status = "rejected"
      if @leave_request.save

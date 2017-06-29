@@ -15,6 +15,12 @@ describe LeaveRequestsController, type: :controller do
   let(:userAdmin) { User.new(ADMIN_USERS.split(',')[0] + '@thoughtworks.com') }
   let(:tokenAdmin) { Token.new.encode(userAdmin) }
 
+  let(:valid_attributes_id) do
+    {
+      id: Faker::Number
+    }
+  end
+
   let(:valid_attributes) do
     {
       start_date: Faker::Date.forward(10),
@@ -66,6 +72,36 @@ describe LeaveRequestsController, type: :controller do
       expect(response).to be_success
     end
   end
+
+
+  describe 'GET #rejected' do
+    it 'returns 303 response' do
+      request.headers[:Token] = ''
+      get :rejected, params: {}
+      expect(response).to have_http_status(303)
+    end
+     it 'returns a succes response' do
+      request.headers[:Token] = tokenAdmin
+      get :rejected, params: { id: 2, leave_request: valid_attributes }
+      expect(response).to be_success
+    end
+  end
+
+
+  describe 'GET #approved' do
+    it 'returns 303 response' do
+      request.headers[:Token] = ''
+      get :approved, params: {}
+      expect(response).to have_http_status(303)  
+    end 
+
+    it 'returns a succes response' do
+      request.headers[:Token] = tokenAdmin
+      get :approved, params: { id: 2, leave_request: valid_attributes }
+      expect(response).to be_success
+    end
+  end
+
 
   describe 'GET #me' do
     it 'returns 303 response' do
