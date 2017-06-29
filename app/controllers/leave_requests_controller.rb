@@ -24,6 +24,20 @@ class LeaveRequestsController < ApplicationController
   def available_leave_days
   end 
   
+
+  # GET /leave_requests/all_taken
+  def all_taken
+    @leave_requests_taken = LeaveRequest.where(status: 'taken')
+    render json: @leave_requests
+  end
+
+  # GET /leave_requests/all_approved
+  def all_approved
+    @leave_requests_approved = LeaveRequest.where(status: 'approved')
+    render json: @leave_requests
+  end
+
+
   #GET /leave_requests/taken_leaves
   def taken_leaves
     @leave_requests = LeaveRequest.where(status: 'taken')

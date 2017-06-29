@@ -43,5 +43,9 @@ RSpec.describe LeaveRequestsController, type: :routing do
       expect(:delete => "/leave_requests/1").to route_to("leave_requests#destroy", :id => "1")
     end
 
+    it "routes to #all_taken" do
+      expect(:get => "/leave_requests/all_taken").to route_to("leave_requests#all_taken")
+    end
+
   end
 end
