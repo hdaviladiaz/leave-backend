@@ -16,8 +16,10 @@ class ManagerInitialDataController < ApplicationController
   def parse_row_data_to_json(row)
 
     start_date = nil
+    taken_days = 0
     if is_number?(row[2]) and is_number?(row[3])
       start_date = build_start_date(row[2].to_f + row[3].to_f)
+      taken_days = row[2].to_f + row[3].to_f
     end
 
     dictionary_row = {'start_date' => start_date,
@@ -26,9 +28,9 @@ class ManagerInitialDataController < ApplicationController
                       'employee_id' => row[0].to_s + THOUGHTWORKS_DOMAIN,
                       'approver_id' => INITIAL_DATA_APPROVER,
                       'initial_load' => true,
-                      'taken_days' => 1,
-                      'remaining_days' => 2,
-                      'total_days' => 3,
+                      'taken_days' => taken_days,
+                      'remaining_days' => 0,
+                      'total_days' => 0,
                       'status' => 'taken'
                     }
     return dictionary_row
