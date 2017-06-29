@@ -2,7 +2,6 @@ class LeaveRequestsController < ApplicationController
   # skip_before_action :require_sign_in!
   before_action :set_leave_request, only: [:show, :update, :destroy, :approved, :rejected]
   before_action :verify_admin!, only: [:index]
-  
 
   # GET /leave_requests only for admins
   def index
@@ -22,10 +21,8 @@ class LeaveRequestsController < ApplicationController
     render json: @leave_requests
   end
 
-  #GET /leave_requests/me/available_leave_days
-  def available_leave_days
-  end 
-  
+  # GET /leave_requests/me/available_leave_days
+  def available_leave_days; end
 
   # GET /leave_requests/all_taken
   def all_taken
@@ -39,8 +36,7 @@ class LeaveRequestsController < ApplicationController
     render json: @leave_requests_approved
   end
 
-
-  #GET /leave_requests/taken_leaves
+  # GET /leave_requests/taken_leaves
   def taken_leaves
     @leave_requests = LeaveRequest.where(status: 'taken')
                                   .where(initial_load: true)
@@ -76,22 +72,22 @@ class LeaveRequestsController < ApplicationController
 
   # GET /leave_requests/approved/1
   def approved
-    @leave_request.status = "approved"
-     if @leave_request.save
+    @leave_request.status = 'approved'
+    if @leave_request.save
       render json: @leave_request, status: :created, location: @leave_request
     else
       render json: @leave_request.errors, status: :unprocessable_entity
-    end
+   end
    end
 
   # GET /leave_requests/rejected/1
   def rejected
-    @leave_request.status = "rejected"
-     if @leave_request.save
+    @leave_request.status = 'rejected'
+    if @leave_request.save
       render json: @leave_request, status: :created, location: @leave_request
     else
       render json: @leave_request.errors, status: :unprocessable_entity
-    end
+   end
   end
 
   # DELETE /leave_requests/1

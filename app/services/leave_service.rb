@@ -9,6 +9,9 @@ class LeaveService
   def self.build_leave_request(leave_request_params)
     leave_request = LeaveRequest.new(leave_request_params)
     jigsaw_info(leave_request)
+    leave_request.taken_days = 10
+    leave_request.remaining_days = 20
+    leave_request.total_days = 30
     leave_request.status = 'pending'
     leave_request
   end

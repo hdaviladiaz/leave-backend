@@ -10,11 +10,10 @@ class LeaveRequest < ApplicationRecord
 
   validates :employee_id, presence: true,
                           format: {
-                              with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9\.-]+\.[A-Za-z]+\Z/
-                          } 
+                            with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9\.-]+\.[A-Za-z]+\Z/
+                          }
   validates :approver_id, presence: true,
                           format: {
-                              with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9\.-]+\.[A-Za-z]+\Z/
-                          } 
-
+                            with: /\A[A-Za-z0-9._%+-]+@[A-Za-z0-9\.-]+\.[A-Za-z]+\Z/
+                          }
 end
